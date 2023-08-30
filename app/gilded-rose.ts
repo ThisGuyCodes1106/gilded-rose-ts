@@ -1,35 +1,20 @@
-export class Item {
-  name: string;
-  sellIn: number;
-  quality: number;
-
-  constructor(name, sellIn, quality) {
-    this.name = name;
-    this.sellIn = sellIn;
-    this.quality = quality;
-  }
-}
-
-enum ProductCategory {
-  REGULAR,
-  CHEESY,
-  BACKSTAGEPASS,
-  LEGENDARY,
-}
-
-export class Product extends Item {
-  category: ProductCategory;
-}
+import { Item } from "./Items/Item";
+import { ItemFactory } from "./Factories/ItemFactory";
 
 export class GildedRose {
   items: Array<Item>;
+  itemFactory: ItemFactory
 
   constructor(items = [] as Array<Item>) {
     this.items = items;
+    this.itemFactory = new ItemFactory()
   }
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
+
+      this.items[i] = this.itemFactory.createItem(this.items[i].name, this.items[i].sellIn, this.items[i].quality);
+      
 
       //Loops through items and decreases its quality by 1, except for aged brie and backstage passes
       if (this.items[i].name != 'Aged Brie' && this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
